@@ -1,0 +1,13 @@
+dn: cn=config
+changetype: modify
+replace: nsslapd-accesslog-logmaxdiskspace
+nsslapd-accesslog-logmaxdiskspace: 65536
+-
+replace: nsslapd-accesslog-maxlogsize
+nsslapd-accesslog-maxlogsize: 2048
+-
+replace: nsslapd-accesslog-maxlogsperdir
+nsslapd-accesslog-maxlogsperdir: 30
+-
+replace: nsslapd-maxdescriptors
+nsslapd-maxdescriptors: 8192

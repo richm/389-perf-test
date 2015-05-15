@@ -1,0 +1,238 @@
+<job>
+	<whiteboard>
+		389-ds-base performance testing
+	</whiteboard>
+	<recipeSet>
+		<recipe kernel_options="" kernel_options_post=""
+                ks_meta="partitions=yes" role="MASTER" whiteboard="389-ds-base
+                                                                   performance
+                                                                   testing server">
+			<ks_appends/>
+            <repos>
+                <repo name="epel" url="http://dl.fedoraproject.org/pub/epel/7/x86_64"/>
+            </repos>
+            <packages>
+                <package name="git"/>
+                <package name="epel-release"/>
+                <package name="wget"/>
+                <package name="curl"/>
+                <package name="screen"/>
+                <package name="sshpass"/>
+            </packages>
+			<distroRequires>
+				<and>
+					<distro_family op="=" value="RedHatEnterpriseLinux7"/>
+					<distro_variant op="=" value="Server"/>
+					<distro_name op="=" value="RHEL-7.1"/>
+					<distro_arch op="=" value="x86_64"/>
+				</and>
+			</distroRequires>
+            <hostRequires>
+                <and>
+                    <key_value key="MEMORY" op="&gt;" value="15000"/>
+                    <key_value key="DISK" op="&gt;" value="99999"/>
+                    <key_value key="PROCESSORS" op="&gt;" value="7"/>
+                </and>
+                <system_type value="Machine"/>
+            </hostRequires>
+			<task name="/distribution/install" role="STANDALONE"/>
+			<task name="/distribution/pkginstall" role="STANDALONE">
+				<params>
+					<param name="PKGARGNAME" value="gcc gcc-c++ nspr-devel nss-devel svrcore-devel openldap-devel libdb-devel cyrus-sasl-devel icu libicu-devel pcre-devel net-snmp-devel lm_sensors-devel bzip2-devel zlib-devel openssl-devel tcp_wrappers pam-devel openldap-clients perl-Mozilla-LDAP nss-tools cyrus-sasl-gssapi cyrus-sasl-md5 libdb-utils perl-Socket perl-NetAddr-IP git python-ldap python-devel libevent-devel libtevent-devel systemd policycoreutils-python"/>
+				</params>
+			</task>
+            <task name="/distribution/beaker/beah/misc/barerunthis" role="STANDALONE">
+                <params>
+                    <param name="BEAH_RUNTHIS" value="wget -O /tmp/build_nunc-stans_and_ds.sh ${BUILD_SCRIPT_URL}/build_nunc-stans_and_ds.sh &gt; /var/log/perf-test-el7.log 2&gt;&amp;1"/>
+                </params>
+            </task>
+            <task name="/distribution/beaker/beah/misc/barerunthis" role="STANDALONE">
+                <params>
+                    <param name="BEAH_RUNTHIS" value="bash -x /tmp/build_nunc-stans_and_ds.sh &gt;&gt; /var/log/perf-test-el7.log 2&gt;&amp;1"/>
+                </params>
+            </task>
+            <task role="STANDALONE" name="/distribution/reservesys">
+	          <params>
+	            <param name="RESERVEBY" value="${EMAIL_ADDRESS}"/>
+	            <param name="RESERVETIME" value="86400"/>
+	          </params>
+	        </task>
+		</recipe>
+		<recipe kernel_options="" kernel_options_post="" ks_meta="" role="CLIENT" whiteboard="389-ds-base performance testing client">
+			<watchdog/>
+			<ks_appends/>
+            <repos>
+                <repo name="epel" url="http://dl.fedoraproject.org/pub/epel/7/x86_64"/>
+            </repos>
+            <packages>
+                <package name="git"/>
+                <package name="epel-release"/>
+                <package name="wget"/>
+                <package name="curl"/>
+                <package name="screen"/>
+                <package name="sshpass"/>
+            </packages>
+			<distroRequires>
+				<and>
+					<distro_family op="=" value="RedHatEnterpriseLinux7"/>
+					<distro_variant op="=" value="Server"/>
+					<distro_name op="=" value="RHEL-7.1"/>
+					<distro_arch op="=" value="x86_64"/>
+				</and>
+			</distroRequires>
+            <hostRequires>
+                <and>
+                    <key_value key="MEMORY" op="&gt;" value="2000"/>
+                    <key_value key="DISK" op="&gt;" value="8192"/>
+                    <key_value key="PROCESSORS" op="&gt;" value="1"/>
+                    <not> <key_value key="MODULE" op="=" value="cciss"/> </not>
+                </and>
+            </hostRequires>
+			<partitions/>
+			<task name="/distribution/install" role="STANDALONE"/>
+			<task name="/distribution/pkginstall" role="STANDALONE">
+				<params>
+					<param name="PKGARGNAME" value="389-ds-base python-ldap"/>
+				</params>
+			</task>
+            <task role="STANDALONE" name="/distribution/reservesys">
+	          <params>
+	            <param name="RESERVEBY" value="${EMAIL_ADDRESS}"/>
+	            <param name="RESERVETIME" value="86400"/>
+	          </params>
+	        </task>
+		</recipe>
+		<recipe kernel_options="" kernel_options_post="" ks_meta="" role="CLIENT" whiteboard="389-ds-base performance testing client">
+			<watchdog/>
+			<ks_appends/>
+            <repos>
+                <repo name="epel" url="http://dl.fedoraproject.org/pub/epel/7/x86_64"/>
+            </repos>
+            <packages>
+                <package name="git"/>
+                <package name="epel-release"/>
+                <package name="wget"/>
+                <package name="curl"/>
+                <package name="screen"/>
+                <package name="sshpass"/>
+            </packages>
+			<distroRequires>
+				<and>
+					<distro_family op="=" value="RedHatEnterpriseLinux7"/>
+					<distro_variant op="=" value="Server"/>
+					<distro_name op="=" value="RHEL-7.1"/>
+					<distro_arch op="=" value="x86_64"/>
+				</and>
+			</distroRequires>
+            <hostRequires>
+                <and>
+                    <key_value key="MEMORY" op="&gt;" value="2000"/>
+                    <key_value key="DISK" op="&gt;" value="8192"/>
+                    <key_value key="PROCESSORS" op="&gt;" value="1"/>
+                    <not> <key_value key="MODULE" op="=" value="cciss"/> </not>
+                </and>
+            </hostRequires>
+			<partitions/>
+			<task name="/distribution/install" role="STANDALONE"/>
+			<task name="/distribution/pkginstall" role="STANDALONE">
+				<params>
+					<param name="PKGARGNAME" value="389-ds-base python-ldap"/>
+				</params>
+			</task>
+            <task role="STANDALONE" name="/distribution/reservesys">
+	          <params>
+	            <param name="RESERVEBY" value="${EMAIL_ADDRESS}"/>
+	            <param name="RESERVETIME" value="86400"/>
+	          </params>
+	        </task>
+		</recipe>
+		<recipe kernel_options="" kernel_options_post="" ks_meta="" role="CLIENT" whiteboard="389-ds-base performance testing client">
+			<watchdog/>
+			<ks_appends/>
+            <repos>
+                <repo name="epel" url="http://dl.fedoraproject.org/pub/epel/7/x86_64"/>
+            </repos>
+            <packages>
+                <package name="git"/>
+                <package name="epel-release"/>
+                <package name="wget"/>
+                <package name="curl"/>
+                <package name="screen"/>
+                <package name="sshpass"/>
+            </packages>
+			<distroRequires>
+				<and>
+					<distro_family op="=" value="RedHatEnterpriseLinux7"/>
+					<distro_variant op="=" value="Server"/>
+					<distro_name op="=" value="RHEL-7.1"/>
+					<distro_arch op="=" value="x86_64"/>
+				</and>
+			</distroRequires>
+            <hostRequires>
+                <and>
+                    <key_value key="MEMORY" op="&gt;" value="2000"/>
+                    <key_value key="DISK" op="&gt;" value="8192"/>
+                    <key_value key="PROCESSORS" op="&gt;" value="1"/>
+                    <not> <key_value key="MODULE" op="=" value="cciss"/> </not>
+                </and>
+            </hostRequires>
+			<partitions/>
+			<task name="/distribution/install" role="STANDALONE"/>
+			<task name="/distribution/pkginstall" role="STANDALONE">
+				<params>
+					<param name="PKGARGNAME" value="389-ds-base python-ldap"/>
+				</params>
+			</task>
+            <task role="STANDALONE" name="/distribution/reservesys">
+	          <params>
+	            <param name="RESERVEBY" value="${EMAIL_ADDRESS}"/>
+	            <param name="RESERVETIME" value="86400"/>
+	          </params>
+	        </task>
+		</recipe>
+		<recipe kernel_options="" kernel_options_post="" ks_meta="" role="CLIENT" whiteboard="389-ds-base performance testing client">
+			<watchdog/>
+			<ks_appends/>
+            <repos>
+                <repo name="epel" url="http://dl.fedoraproject.org/pub/epel/7/x86_64"/>
+            </repos>
+            <packages>
+                <package name="git"/>
+                <package name="epel-release"/>
+                <package name="wget"/>
+                <package name="curl"/>
+                <package name="screen"/>
+                <package name="sshpass"/>
+            </packages>
+			<distroRequires>
+				<and>
+					<distro_family op="=" value="RedHatEnterpriseLinux7"/>
+					<distro_variant op="=" value="Server"/>
+					<distro_name op="=" value="RHEL-7.1"/>
+					<distro_arch op="=" value="x86_64"/>
+				</and>
+			</distroRequires>
+            <hostRequires>
+                <and>
+                    <key_value key="MEMORY" op="&gt;" value="2000"/>
+                    <key_value key="DISK" op="&gt;" value="8192"/>
+                    <key_value key="PROCESSORS" op="&gt;" value="1"/>
+                    <not> <key_value key="MODULE" op="=" value="cciss"/> </not>
+                </and>
+            </hostRequires>
+			<partitions/>
+			<task name="/distribution/install" role="STANDALONE"/>
+			<task name="/distribution/pkginstall" role="STANDALONE">
+				<params>
+					<param name="PKGARGNAME" value="389-ds-base python-ldap"/>
+				</params>
+			</task>
+            <task role="STANDALONE" name="/distribution/reservesys">
+	          <params>
+	            <param name="RESERVEBY" value="${EMAIL_ADDRESS}"/>
+	            <param name="RESERVETIME" value="86400"/>
+	          </params>
+	        </task>
+		</recipe>
+	</recipeSet>
+</job>
